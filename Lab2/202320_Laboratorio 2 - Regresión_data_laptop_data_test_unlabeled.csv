@@ -1,4 +1,4 @@
-id,Company,TypeName,Ram,Weight,TouchScreen,Ips,Ppi,Cpu_brand,HDD,SSD,Gpu_brand,Os,CalculatedPrice
+id,Company,TypeName,Ram,Weight,TouchScreen,Ips,Ppi,Cpu_brand,HDD,SSD,Gpu_brand,Os,Price
 1234,HP,Notebook,4,2.1,0,0,141.21199808219862,Intel Core i3,1000.0,0,Intel,Windows,
 691,Lenovo,Notebook,4,1.7,0,0,157.3505121487356,Intel Core i5,0.0,256,Intel,Windows,
 894,MSI,Gaming,16,2.43,0,1,254.67134914246225,Intel Core i7,2000.0,512,Nvidia,Windows,
