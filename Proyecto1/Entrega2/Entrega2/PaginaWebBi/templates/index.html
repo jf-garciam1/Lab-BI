@@ -29,21 +29,22 @@
         </div>
 
         <div class="form-group">
-            <label for="csvFile">Selecciona un archivo CSV</label>
-            <input type="file" class="form-control-file" id="csvFile" accept=".csv">
+            <h1>Desarrollo de predicciones</h1>
+            <label for="csvFile">Selecciona un archivo CSV (para hacer predicciones)</label>
+            <input type="file" class="form-control-file" id="csvFile" accept=".xlsx">
         </div>
 
         <div class="btn-container">
             <div class="dashed-border">
-                <form action="/aplicar_pipeline" method="post" class="d-inline-block">
+                <form id="aplicarPipelineForm" method="post" class="d-inline-block">
                     <input type="submit" class="btn btn-primary"  value="Aplicar Pipeline">
                 </form>
 
-                <a href="/descargar_resultado" download class="d-inline-block">
+                <a id="descargarResultadoLink" href="/descargar_resultado" download class="d-inline-block">
                     <button class="btn btn-secondary">Descargar Resultado</button>
                 </a>
 
-                <button class="btn btn-success">Otro botón</button>
+                <button id="otroBoton" class="btn btn-success">Otro botón</button>
             </div>
         </div>
     </div>
@@ -51,5 +52,25 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('aplicarPipelineForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            fetch('/aplicar_pipeline', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Respuesta de la API:', data);
+                // Aquí puedes hacer algo con la respuesta si es necesario
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('otroBoton').addEventListener('click', function() {
+            // Aquí puedes añadir la funcionalidad para el otro botón si es necesario
+        });
+    </script>
 </body>
 </html>
