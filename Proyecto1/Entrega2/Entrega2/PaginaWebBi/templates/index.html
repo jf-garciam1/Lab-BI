@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina de usuarios proyecto Bi</title>
+    <style>
+        body {
+            background-color: #FFD1DC; /* Fondo color pastel rosa */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif; /* Puedes cambiar la fuente según tus preferencias */
+        }
+
+        .title-frame {
+            background-color: #ADD8E6; /* Fondo color azul pastel */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        form, a {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="title-frame">
+        <h1>Proyecto de Bi proyecto 1 Entrega 2</h1>
+    </div>
+    
+    <div class="container">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="archivo_csv" accept=".csv">
+            <input type="submit" value="Cargar CSV">
+        </form>
+
+        <form action="/aplicar_pipeline" method="post">
+            <input type="submit" value="Aplicar Pipeline">
+        </form>
+
+        <a href="/descargar_resultado" download>
+            <button>Descargar Resultado</button>
+        </a>
+    </div>
+
+</body>
+</html>

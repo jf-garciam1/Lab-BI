@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F0EDE5; /* Color de fondo pastel */
+    margin: 0;
+}
+
+header {
+    background-color: #D9C9BA; /* Color de encabezado pastel */
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 36px;
+    color: #554A48; /* Color del texto oscuro */
+}
+
+.content {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #554A48; /* Color del texto oscuro */
+}
+
+footer {
+    background-color: #D9C9BA; /* Color de pie de página pastel */
+    padding: 10px;
+    text-align: center;
+}
