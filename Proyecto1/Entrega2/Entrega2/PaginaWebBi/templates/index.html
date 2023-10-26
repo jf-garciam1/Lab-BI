@@ -31,13 +31,14 @@
         <div class="form-group">
             <h1>Desarrollo de predicciones</h1>
             <label for="csvFile">Selecciona un archivo CSV (para hacer predicciones)</label>
-            <input type="file" class="form-control-file" id="csvFile" accept=".xlsx">
+            <input type="file" class="form-control-file" id="csvFile" name="archivo" accept=".xlsx">
         </div>
 
         <div class="btn-container">
             <div class="dashed-border">
-                <form id="aplicarPipelineForm" method="post" class="d-inline-block">
-                    <input type="submit" class="btn btn-primary"  value="Aplicar Pipeline">
+                <form action="/aplicar_pipeline" method="post" enctype="multipart/form-data">
+                    <input type="file" class="form-control-file" id="csvFile" name="csvFile" accept=".xlsx">
+                    <input type="submit" class="btn btn-primary" value="Aplicar Pipeline">
                 </form>
 
                 <a id="descargarResultadoLink" href="/descargar_resultado" download class="d-inline-block">
