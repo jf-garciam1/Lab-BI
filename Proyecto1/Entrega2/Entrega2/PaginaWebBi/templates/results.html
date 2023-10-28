@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+   <title>Resultados de predicción</title>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+   <h1>Resultados de predicción:</h1>
+   <table class="table table-sm">
+       <thead>
+           <tr>
+               <th scope="col">ID</th>
+               <th scope="col">SDG</th>
+           </tr>
+       </thead>
+       <tbody id="predictions"></tbody>
+   </table>
+   <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-secondary" onclick="previousPage()">Anterior</button>
+    <button type="button" class="btn btn-secondary" onclick="nextPage()">Siguiente</button>
+    </div>
+
+   <div>
+    <h2 class="text-center">Estadísticas</h2>
+    <ul id="statistics">
+        <!-- Aquí se llenarán las estadísticas -->
+    </ul>
+    <button type="button" class="btn btn-primary" onclick="generateStatistics()">Generar Estadísticas</button>
+    </div>
+
+   <script>
+       var currentPage = 0;
+       var predictions = {{ predictions | tojson | safe }};
+
+       function updateList() {
+           var listElement = document.getElementById("predictions");
+           listElement.innerHTML = '';
+
+           for (var i = currentPage * 10; i < (currentPage + 1) * 10 && i < predictions.length; i++) {
+               var prediction = predictions[i];
+               var row = document.createElement('tr');
+               row.innerHTML = `<td>${i + 1}</td><td>${prediction.sdg}</td>`;
+               listElement.appendChild(row);
+           }
+       }
+
+       function previousPage() {
+           if (currentPage > 0) {
+               currentPage--;
+               updateList();
+           }
+       }
+
+       function nextPage() {
+           if ((currentPage + 1) * 10 < predictions.length) {
+               currentPage++;
+               updateList();
+           }
+       }
+
+       function generateStatistics() {
+           var sdgsCount = {};
+           predictions.forEach(function(prediction) {
+               if (sdgsCount[prediction.sdg]) {
+                   sdgsCount[prediction.sdg]++;
+               } else {
+                   sdgsCount[prediction.sdg] = 1;
+               }
+           });
+
+           var statisticsElement = document.getElementById("statistics");
+           statisticsElement.innerHTML = '';
+
+           var maxSDG = Object.keys(sdgsCount).reduce(function(a, b) { return sdgsCount[a] > sdgsCount[b] ? a : b });
+           var maxSDGCount = sdgsCount[maxSDG];
+
+           var statistics = [
+               `Total de predicciones: ${predictions.length}`,
+               `Cantidad de SDGs diferentes: ${Object.keys(sdgsCount).length}`,
+               `SDG más común: ${maxSDG} (aparece ${maxSDGCount} veces)`
+           ];
+
+           statistics.forEach(function(statistic) {
+               var listItem = document.createElement('li');
+               listItem.textContent = statistic;
+               statisticsElement.appendChild(listItem);
+           });
+       }
+
+
+       updateList();
+   </script>
+</body>
+</html>
