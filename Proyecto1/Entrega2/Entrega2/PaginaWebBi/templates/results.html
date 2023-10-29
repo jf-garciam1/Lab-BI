@@ -16,18 +16,56 @@
        </thead>
        <tbody id="predictions"></tbody>
    </table>
+   
    <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
     <button type="button" class="btn btn-secondary" onclick="previousPage()">Anterior</button>
     <button type="button" class="btn btn-secondary" onclick="nextPage()">Siguiente</button>
     </div>
 
-   <div>
+    <div id="informacionContainer" class="card" style="display:none;">
+        <div class="card-body">
+          <h5 class="card-title">Información</h5>
+          <p class="card-text" id="informacionTexto"></p>
+        </div>
+      </div>
+
     <h2 class="text-center">Estadísticas</h2>
-    <ul id="statistics">
-        <!-- Aquí se llenarán las estadísticas -->
-    </ul>
-    <button type="button" class="btn btn-primary" onclick="generateStatistics()">Generar Estadísticas</button>
+
+    <div class="vh-100 row m-0 text-center align-items-center
+    justify-content-center">
+
+        <h2 class="text-center"></h2>
+
+        <button class="btn btn-secondary" onclick="generarTabla()">Modelo Usado</button>
+
+        <div id="tablaContainer"></div>
+
+        <h2 class="text-center"></h2>
+
+        <button type="button" class="btn btn-primary" onclick="generateStatistics()">Generar Estadísticas</button>
+
+        <h2 class="text-center"></h2>
+
+        <ul id="statistics">
+        </ul>
+
+        <h2 class="text-center"></h2>
+
+        <a id="descargarResultadoLink" href="/download_resultado" download class="d-inline-block">
+            <button class="btn btn-secondary">Descargar Resultado</button>
+        </a>
+
+        <h2 class="text-center"></h2>
+
+        <canvas id="graficasBarras"></canvas>
+
+        <h2 class="text-center"></h2>
+
+        <button id="generarGraficas" class="btn btn-primary">Generar Gráficas de Barras</button>
+
     </div>
+
+
 
    <script>
        var currentPage = 0;
@@ -40,7 +78,7 @@
            for (var i = currentPage * 10; i < (currentPage + 1) * 10 && i < predictions.length; i++) {
                var prediction = predictions[i];
                var row = document.createElement('tr');
-               row.innerHTML = `<td>${i + 1}</td><td>${prediction.sdg}</td>`;
+               row.innerHTML = `<td>${i + 1}</td><td onclick="mostrarInformacion(${prediction.sdg})">${prediction.sdg}</td>`;
                listElement.appendChild(row);
            }
        }
@@ -87,6 +125,107 @@
                statisticsElement.appendChild(listItem);
            });
        }
+
+        document.getElementById('generarGraficas').addEventListener('click', function() {
+        var ctx = document.getElementById('graficasBarras').getContext('2d');
+
+        var sdgsCount = {};
+           predictions.forEach(function(prediction) {
+               if (sdgsCount[prediction.sdg]) {
+                   sdgsCount[prediction.sdg]++;
+               } else {
+                   sdgsCount[prediction.sdg] = 1;
+               }
+           });
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['SDG 3', 'SDG 4', 'SDG 5'],
+                datasets: [{
+                    label: 'Cantidad',
+                    data: [sdgsCount[3],sdgsCount[4],sdgsCount[5]],
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+
+
+            function mostrarInformacion(sdg) {
+            var informacionTexto = document.getElementById("informacionTexto");
+            var informacionContainer = document.getElementById("informacionContainer");
+
+            var informacion = '';
+
+            if (sdg == 3) {
+                informacion = 'El Objetivo 3 de la Agenda 2030 de las Naciones Unidas se enfoca en: "Garantizar una vida sana y \
+                promover el bienestar para todos en todas las edades". Su objetivo principal es mejorar la salud y el bienestar \
+                de las personas en todo el mundo, abordando una amplia gama de cuestiones relacionadas con la salud física y mental. \
+                Algunos de los objetivos específicos del Objetivo 3 incluyen: Reducir la mortalidad infantil y materna. Combatir \
+                enfermedades como el VIH/SIDA, la malaria y otras enfermedades transmitidas por vectores. Garantizar el acceso \
+                universal a servicios de salud de calidad, incluido el acceso a medicamentos esenciales y vacunas. Reducir las \
+                muertes causadas por enfermedades no transmisibles como enfermedades cardiovasculares, diabetes y cáncer. Promover \
+                la salud mental y el bienestar emocional. Reducir el consumo de sustancias nocivas y adictivas. Impulsar la prevención \
+                y el tratamiento de enfermedades a través de la educación y la concienciación. El Objetivo 3 es fundamental para \
+                mejorar la calidad de vida de las personas y para construir sociedades más saludables y sostenibles a nivel global.';
+            } else if (sdg == 4) {
+                informacion = 'El Objetivo 4 de la Agenda 2030 de las Naciones Unidas se centra en "Garantizar una educación inclusiva,\
+                 equitativa y de calidad, y promover oportunidades de aprendizaje durante toda la vida para todos". Su objetivo es \
+                 asegurar que todas las personas, sin importar su edad o circunstancias, tengan acceso a una educación de calidad y a \
+                 oportunidades de aprendizaje a lo largo de sus vidas. Algunos de los objetivos específicos del Objetivo 4 incluyen: \
+                 Garantizar que todos los niños tengan acceso a una educación preescolar, primaria y secundaria de calidad. Promover \
+                 igualdad de género en la educación y eliminar disparidades de género en el acceso a la educación. Asegurar que los \
+                 jóvenes y adultos tengan acceso a oportunidades de educación y formación técnica y profesional. Aumentar el acceso a \
+                 la educación superior y fomentar la investigación y la innovación. Mejorar la calidad de la educación, incluyendo el \
+                 desarrollo de habilidades como el pensamiento crítico y la resolución de problemas. Promover la educación para la \
+                 sostenibilidad y la ciudadanía global. Asegurar entornos educativos seguros y propicios para el aprendizaje. El \
+                 Objetivo 4 busca empoderar a las personas a través de la educación, brindando herramientas y conocimientos necesarios \
+                 para construir un futuro más sostenible y equitativo.';
+            } else if (sdg == 5) {
+                informacion = 'El Objetivo 5 de la Agenda 2030 de las Naciones Unidas se enfoca en "Lograr la igualdad de género y \
+                empoderar a todas las mujeres y niñas". Su objetivo es promover la igualdad entre los géneros y empoderar a las \
+                mujeres y niñas en todos los ámbitos de la sociedad. Algunos de los objetivos específicos del Objetivo 5 incluyen: \
+                Poner fin a la discriminación y la violencia de género en todas sus formas. Eliminar prácticas dañinas como el\
+                 matrimonio infantil y la mutilación genital femenina. Garantizar la participación plena y efectiva de las mujeres\
+                  en la toma de decisiones a nivel político, económico y público. Asegurar igualdad de oportunidades en el ámbito \
+                  laboral, incluyendo igualdad salarial por trabajo de igual valor. Promover el acceso a la educación y la formación \
+                  para mujeres y niñas. Fomentar la distribución equitativa de las responsabilidades del hogar y el cuidado de la\
+                  familia. Apoyar el liderazgo y el emprendimiento de mujeres en todos los niveles. El Objetivo 5 busca crear un \
+                  mundo en el que las mujeres y niñas tengan las mismas oportunidades, derechos y acceso a recursos que los hombres, \
+                  contribuyendo así a sociedades más justas y equitativas.';
+            }
+
+            informacionTexto.textContent = informacion;
+            informacionContainer.style.display = "block";
+        }
+
+
+        function generarTabla() {
+            var tabla = "<h3>Modelo usado fue: TD-IDF con SVM</h3><table border='1'><tr><th>Metrica</th><th>Resultado</th></tr>";
+            tabla += "<tr><td>Precision</td><td>97.5%</td></tr>";
+            tabla += "<tr><td>Recall</td><td>97.5%</td></tr>";
+            tabla += "<tr><td>F1-score</td><td>97.5%</td></tr>";
+            tabla += "</table>";
+            document.getElementById("tablaContainer").innerHTML = tabla;
+        }
 
 
        updateList();
