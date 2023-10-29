@@ -16,6 +16,20 @@ from nltk.stem import LancasterStemmer, WordNetLemmatizer
 
 class TransformacionesPD(BaseEstimator, TransformerMixin):
 
+    '''
+
+    En este punto, se definen las funciones o transformaciones necesarias para analizar el texto. En primer lugar, se
+    llevará a cabo una transformación relacionada con el formato ASCII. Esta transformación tiene como objetivo eliminar
+    símbolos o caracteres que no estén en formato ASCII o que no se asemejen a él. Luego, para evitar comparaciones entre 
+    palabras idénticas pero con diferencias en mayúsculas y minúsculas, se realizará una transformación que convertirá todo 
+    el texto a minúsculas, lo que facilitará el análisis. Posteriormente, se eliminarán los puntos, comas y punto y comas, 
+    con el propósito de que el texto sea lo más puro posible y se enfoque exclusivamente en el contenido. Después, se abordará 
+    la necesidad de suprimir los números, sustituyéndolos por palabras, con el fin de que no influyan en el análisis. 
+    Por último, se abordará el concepto previamente mencionado de "stopwords". En este caso, se eliminarán estas palabras 
+    recurrentes que no aportan al análisis y pueden volverlo denso.
+    
+    '''
+
     def remove_non_ascii(self,words):
         """Remove non-ASCII characters from list of tokenized words"""
         new_words = []
